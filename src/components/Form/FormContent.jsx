@@ -76,7 +76,7 @@ export const FormContent = ({
               Join us for an unforgettable experience at [Event Name]! Secure
               your spot now.
             </p>
-            <div className="flex flex-col justify-center md:flex-row md:justify-between">
+            <div className="flex flex-col justify-center md:flex-row md:justify-evenly">
               <span>📍 [Event Location]</span>
               <span className="hidden md:inline">||</span>
               <span>March 15, 2025 | 7:00 PM</span>
@@ -174,14 +174,17 @@ export const FormContent = ({
       {/* Step 2: Attendee Details */}
       {currentStep === 2 && (
         <div className="animate-fadeIn">
-          <ImageUpload
-            uploadedImage={uploadedImage}
-            setUploadedImage={setUploadedImage}
-          />
+          <div className="w-full h-[350px] p-6 rounded-3xl border border-[#0E464F]">
+            <p className="text-white mb-8 md:mb-10">Upload Profile Photo</p>
+            <ImageUpload
+              uploadedImage={uploadedImage}
+              setUploadedImage={setUploadedImage}
+            />
+          </div>
           <hr className="h-1 border-0 bg-[#07373F] my-5" />
 
           <label htmlFor="name" className="text-white block text-left mb-2.5">
-            Enter your name
+            Name
           </label>
           <input
             type="text"
@@ -195,30 +198,15 @@ export const FormContent = ({
             htmlFor="email"
             className="text-white block text-left mt-4 mb-2.5"
           >
-            Enter your email*
+            Email
           </label>
-          <div className="flex items-center gap-2.5 w-full border border-[#07373F] p-2 bg-transparent rounded-lg">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 4H4C2.897 4 2 4.897 2 6V18C2 19.103 2.897 20 4 20H20C21.103 20 22 19.103 22 18V6C22 4.897 21.103 4 20 4ZM20 6V6.511L12 12.734L4 6.512V6H20ZM4 18V9.044L11.386 14.789C11.5611 14.9265 11.7773 15.0013 12 15.0013C12.2227 15.0013 12.4389 14.9265 12.614 14.789L20 9.044L20.002 18H4Z"
-                fill="white"
-              />
-            </svg>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="text-white w-full bg-transparent outline-none"
-              placeholder="hello@avioflagos.io"
-            />
-          </div>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg"
+          />
 
           <label
             htmlFor="specialRequest"
@@ -252,6 +240,7 @@ export const FormContent = ({
 
       {(currentStep === 3) & userDetails && (
         <div className="animate-fadeIn">
+          <p></p>
         </div>
       )}
     </form>

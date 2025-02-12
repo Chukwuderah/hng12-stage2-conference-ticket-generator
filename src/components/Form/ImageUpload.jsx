@@ -41,8 +41,8 @@ export const ImageUpload = ({ uploadedImage, setUploadedImage }) => {
   };
 
   return (
-    <div className="w-full bg-[#031C23] p-4 rounded-lg border border-[#0E464F]">
-      <div className="relative flex justify-center items-center w-full h-[200px] border border-[#25A2C3] rounded-lg overflow-hidden bg-[#05252C] cursor-pointer group">
+    <div className="relative w-[240px] mx-auto md:w-full h-[200px] bg-[#031C23] px-9 rounded-3xl md:rounded-lg border border-[#0E464F]">
+      <div className="absolute left-[50%] h-[120%] flex justify-center items-center w-[240px] max-w-[240px] border-[3px] border-[#25A2C3] rounded-3xl overflow-hidden bg-[#0E464F] cursor-pointer group -translate-x-[50%] md:translate-y-[-9%]">
         {isUploading ? (
           <div className="flex items-center justify-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
@@ -54,10 +54,10 @@ export const ImageUpload = ({ uploadedImage, setUploadedImage }) => {
               alt="Uploaded"
               className="w-full h-full object-cover rounded-lg"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute inset-0 flex items-center justify-center bg-[#0000004D] bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <label
                 htmlFor="fileUpload"
-                className="text-white text-center p-3 border border-white rounded-lg cursor-pointer"
+                className="h-full text-white text-center p-3 cursor-pointer flex flex-col items-center justify-center"
               >
                 <svg
                   width="32"
@@ -101,7 +101,7 @@ export const ImageUpload = ({ uploadedImage, setUploadedImage }) => {
                 fill="#FAFAFA"
               />
             </svg>
-            <span className="mt-2">Drag & drop or click to upload</span>
+            <span className="mt-2 text-nowrap md:text-wrap text-center">Drag & drop or click to upload</span>
           </label>
         )}
         <input
