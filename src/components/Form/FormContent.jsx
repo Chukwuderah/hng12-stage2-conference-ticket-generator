@@ -100,11 +100,11 @@ export const FormContent = ({
             {currentStep === 2 && (
                 <div className="animate-fadeIn">
                     <ImageUpload uploadedImage={uploadedImage} setUploadedImage={setUploadedImage} />
-
-                    <label htmlFor="name" className="text-white block text-left mb-2.5">Name</label>
+                    <div className= "w-full border-3 border-b-[#07373F] my-[30px]"></div>
+                    <label htmlFor="name" className="text-white block text-left mb-2.5">Enter your name</label>
                     <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg" />
 
-                    <label htmlFor="email" className="text-white block text-left mt-4 mb-2.5">Email</label>
+                    <label htmlFor="email" className="text-white block text-left mt-4 mb-2.5">Enter your email *</label>
                     <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg" />
 
                     <label htmlFor="specialRequest" className="text-white block text-left mt-4 mb-2.5">Special Request?</label>
