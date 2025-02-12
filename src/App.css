@@ -1,13 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Jeju+Myeongjo&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Jeju+Myeongjo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Road+Rage&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
+* {
+    box-sizing: border-box;
+}
+
 body {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  background-color: #02191d;
+    background-color: #02191D;
+}
+
+.road-rage {
+    font-family: "Road Rage", serif;
+}
+
+.roboto {
+    font-family: "Roboto", serif;
 }
 
 .jeju {
-  font-family: "Jeju Myeongo";
+    font-family: 'Jeju Myeongo';
+}
+
+label {
+    font-family: "Roboto", serif;
 }
