@@ -67,7 +67,13 @@ export const FormContent = ({
   }, [currentStep, setTitle]);
 
   return (
-    <form className={`${currentStep !== 3 ? "md:bg-[#08252B] md:border md:border-[#0E464F] md:rounded-[10px]" : ''} w-full md:p-2.5`}>
+    <form
+      className={`${
+        currentStep !== 3
+          ? "md:bg-[#08252B] md:border md:border-[#0E464F] md:rounded-[10px]"
+          : ""
+      } w-full md:p-2.5`}
+    >
       {currentStep === 1 && (
         <div className="animate-fadeIn">
           <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%]">
@@ -130,7 +136,7 @@ export const FormContent = ({
                 onChange={(e) => setTicketCount(parseInt(e.target.value))}
                 className="w-full p-3 pr-10 border border-[#0E464F] rounded-lg bg-[#052228] text-white outline-none focus:border-[#25A2C3] appearance-none"
               >
-                {[...Array(10).keys()].map((num) => (
+                {[...Array(5).keys()].map((num) => (
                   <option key={num + 1} value={num + 1}>
                     {num + 1}
                   </option>
@@ -184,41 +190,42 @@ export const FormContent = ({
           <hr className="h-1 border-0 bg-[#07373F] my-5" />
 
           <label htmlFor="name" className="text-white block text-left mb-2.5">
-            Name
+            Enter your name
           </label>
           <input
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg"
+            className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg outline-0"
           />
 
           <label
             htmlFor="email"
             className="text-white block text-left mt-4 mb-2.5"
           >
-            Email
+            Enter your email *
           </label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg"
+            className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg outline-0"
           />
 
           <label
             htmlFor="specialRequest"
             className="text-white block text-left mt-4 mb-2.5"
           >
-            Special Request?
+            Special request?
           </label>
           <textarea
             id="specialRequest"
             value={specialRequest}
             onChange={(e) => setSpecialRequest(e.target.value)}
-            className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg"
+            placeholder="Textarea"
+            className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg outline-0"
           />
 
           <div className="flex flex-col-reverse my-4 md:flex-row gap-2.5">
@@ -240,9 +247,72 @@ export const FormContent = ({
 
       {currentStep === 3 && (
         <div className="animate-fadeIn">
-          <h1 className="text-3xl font-bold text-white text-center">Your Ticket Is Booked!</h1>
-          <p className="text-white text-center">Check your email for a copy or you can download</p>
-          <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%]"></div>
+          <h1 className="text-[32px] font-medium text-white text-center alatsi mb-2.5">
+            Your Ticket Is Booked!
+          </h1>
+          <p className="text-white text-[16px] text-center font-light mb-10 roboto">
+            Check your email for a copy or you can <b>download</b>
+          </p>
+          <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%]">
+            <h2 className="road-rage text-4xl">Techember Fest &quot;25</h2>
+            <div className="flex flex-col justify-center">
+              <span>📍 04 Rumens road, Ikoyi, Lagos</span>
+              <span>March 15, 2025 | 7:00 PM</span>
+            </div>
+            <div className="h-[140px] w-[140px] mx-auto my-10 bg-transparent border-[2px] border-[#24A0B5] rounded-[12px] ">
+              <img
+                src={uploadedImage}
+                alt="avatar"
+                className="w-full h-full object-cover rounded-[12px]"
+              />
+            </div>
+            <div className="flex flex-col justify-center w-full bg-[#08343C] border border-[#133D44] rounded-[10px]">
+              <div className="flex justify-center items-center w-full max-w-full">
+                <div className="w-[50%] max-w-[50%] border-[2px] border-r-[#133D44] border-y-0 border-l-0 p-2 flex flex-col gap-y-2">
+                  <p className="roboto text-white/30 text-[10px] text-left">
+                    Enter your name
+                  </p>
+                  <p className="roboto text-[12px] text-left truncate">
+                    {name}
+                  </p>
+                </div>
+                <div className="w-[50%] max-w-[50%] border-0 p-2 flex flex-col gap-y-2">
+                  <p className="roboto text-white/30 text-[10px] text-left">
+                    Enter your email *
+                  </p>
+                  <p className="roboto text-[12px] text-left truncate">
+                    {email}
+                  </p>
+                </div>
+              </div>
+              <div className="flex justify-center items-center w-full">
+                <div className="w-[50%] border-[2px] border-r-[#133D44] border-t-[#133D44] border-b-0 border-l-0 p-2 flex flex-col gap-y-2">
+                  <p className="roboto text-white/30 text-[10px] text-left">
+                    Ticket Type
+                  </p>
+                  <p className="roboto text-[12px] text-left">
+                    {selectedTicket}
+                  </p>
+                </div>
+                <div className="w-[50%] border-[2px] border-x-0 border-t-[#133D44] border-b-0 p-2 flex flex-col gap-y-2">
+                  <p className="roboto text-white/30 text-[10px] text-left">
+                    Ticket for?
+                  </p>
+                  <p className="roboto text-[12px] text-left">{ticketCount}</p>
+                </div>
+              </div>
+              <div className="w-full max-w-full border-[2px] border-t-[#133D44] border-x-0 border-b-0 p-2 flex flex-col gap-y-2">
+                <p className="roboto text-white/30 text-[10px] text-left">
+                  Special request?
+                </p>
+                <p className="roboto text-[12px] text-left overflow-auto">
+                  {specialRequest}
+                </p>
+              </div>
+            </div>
+
+          </div>
+          
         </div>
       )}
     </form>

@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Jeju+Myeongjo&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Road+Rage&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url(https://fonts.googleapis.com/css2?family=Alatsi&display=swap);
 @import "tailwindcss";
 
 * {
@@ -20,6 +21,10 @@ body {
 
 .jeju {
   font-family: "Jeju Myeongo";
+}
+
+.alatsi {
+  font-family: "Alatsi", serif;
 }
 
 label {
