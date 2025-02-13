@@ -3,48 +3,86 @@ import { FormProgress } from "./FormProgress";
 import { FormContent } from "./FormContent";
 
 export const TicketForm = () => {
-  const [title, setTitle] = useState("Ticket Selection");
-  const [currentStep, setCurrentStep] = useState(1);
-  const [userDetails, setUserDetails] = useState(null);
+  const [title, setTitle] = useState(() => {
+    return localStorage.getItem("formTitle") || "Ticket Selection";
+  });
 
-  const [selectedTicket, setSelectedTicket] = useState("Free");
-  const [ticketCount, setTicketCount] = useState(1);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [specialRequest, setSpecialRequest] = useState("");
-  const [uploadedImage, setUploadedImage] = useState(null);
+  const [currentStep, setCurrentStep] = useState(() => {
+    return parseInt(localStorage.getItem("currentStep")) || 1;
+  });
 
-  // Load saved user details on component mount
+  const [selectedTicket, setSelectedTicket] = useState(() => {
+    return localStorage.getItem("selectedTicket") || "Free";
+  });
+
+  const [ticketCount, setTicketCount] = useState(() => {
+    return parseInt(localStorage.getItem("ticketCount")) || 1;
+  });
+
+  const [name, setName] = useState(() => {
+    return localStorage.getItem("name") || "";
+  });
+
+  const [email, setEmail] = useState(() => {
+    return localStorage.getItem("email") || "";
+  });
+
+  const [specialRequest, setSpecialRequest] = useState(() => {
+    return localStorage.getItem("specialRequest") || "";
+  });
+
+  const [uploadedImage, setUploadedImage] = useState(() => {
+    return localStorage.getItem("uploadedImage") || null;
+  });
+
   useEffect(() => {
-    const savedUserDetails = localStorage.getItem("userDetails");
-    if (savedUserDetails) {
-      const parsedDetails = JSON.parse(savedUserDetails);
-      setUserDetails(parsedDetails);
-      setSelectedTicket(parsedDetails.selectedTicket || "Free");
-      setTicketCount(parsedDetails.ticketCount || 1);
-      setName(parsedDetails.name || "");
-      setEmail(parsedDetails.email || "");
-      setSpecialRequest(parsedDetails.specialRequest || "");
-      setUploadedImage(parsedDetails.uploadedImage || null);
+    localStorage.setItem("formTitle", title);
+  }, [title]);
+
+  useEffect(() => {
+    localStorage.setItem("currentStep", currentStep.toString());
+  }, [currentStep]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedTicket", selectedTicket);
+  }, [selectedTicket]);
+
+  useEffect(() => {
+    localStorage.setItem("ticketCount", ticketCount.toString());
+  }, [ticketCount]);
+
+  useEffect(() => {
+    localStorage.setItem("name", name);
+  }, [name]);
+
+  useEffect(() => {
+    localStorage.setItem("email", email);
+  }, [email]);
+
+  useEffect(() => {
+    localStorage.setItem("specialRequest", specialRequest);
+  }, [specialRequest]);
+
+  useEffect(() => {
+    if (uploadedImage) {
+      localStorage.setItem("uploadedImage", uploadedImage);
     }
-  }, []);
+  }, [uploadedImage]);
 
-  useEffect(() => {
-    const details = {
-      selectedTicket,
-      ticketCount,
-      name,
-      email,
-      specialRequest,
-      uploadedImage,
-      lastUpdated: new Date().toISOString(),
-    };
-    setUserDetails(details);
-    localStorage.setItem("userDetails", JSON.stringify(details));
-  }, [selectedTicket, ticketCount, name, email, specialRequest, uploadedImage]);
+  const clearFormData = () => {
+    localStorage.removeItem("formTitle");
+    localStorage.removeItem("currentStep");
+    localStorage.removeItem("selectedTicket");
+    localStorage.removeItem("ticketCount");
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("specialRequest");
+    localStorage.removeItem("uploadedImage");
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (
       !selectedTicket ||
       !ticketCount ||
@@ -52,25 +90,47 @@ export const TicketForm = () => {
       !email.trim() ||
       !uploadedImage
     ) {
-      alert("Please fill in all fields before submitting.");
+      alert("Please fill in all required fields before submitting.");
       return;
     }
 
-    console.log({
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    setCurrentStep(3);
+
+    const ticketData = {
       selectedTicket,
       ticketCount,
       name,
       email,
       specialRequest,
       uploadedImage,
-    });
+      bookingDate: new Date().toISOString(),
+      ticketId: `TCK - ${Math.random().toString(36).substr(2, 9)}`,
+    };
 
-    setUserDetails(userDetails);
-    setCurrentStep(3);
+    localStorage.setItem("completedTicket", JSON.stringify(ticketData));
+  };
+
+  const handleCancel = () => {
+    clearFormData();
+
+    setTitle("Ticket Selection");
+    setCurrentStep(1);
+    setSelectedTicket("Free");
+    setTicketCount(1);
+    setName("");
+    setEmail("");
+    setSpecialRequest("");
+    setUploadedImage(null);
   };
 
   return (
-    <div className="w-[95%] md:w-[50%] bg-[#08252B] md:bg-[transparent] mx-auto my-10 h-max p-8 border rounded-[10px] border-[#197686]">
+    <div className="md:w-[50%] bg-[#08252B] md:bg-[transparent] mx-auto my-10 h-max p-8 border rounded-[10px] border-[#197686]">
       <FormProgress title={title} currentStep={currentStep} totalSteps={3} />
       <FormContent
         currentStep={currentStep}
@@ -89,7 +149,7 @@ export const TicketForm = () => {
         uploadedImage={uploadedImage}
         setUploadedImage={setUploadedImage}
         handleSubmit={handleSubmit}
-        userDetails={userDetails}
+        handleCancel={handleCancel}
       />
     </div>
   );

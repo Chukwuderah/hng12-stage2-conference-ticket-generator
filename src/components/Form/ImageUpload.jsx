@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-// Replace these with your actual Cloudinary credentials
-const CLOUDINARY_CLOUD_NAME = "digjbgzof";
-const CLOUDINARY_UPLOAD_PRESET = "Ticket Avatar Upload";
+// Get Cloudinary credentials
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 export const ImageUpload = ({ uploadedImage, setUploadedImage }) => {
   const [isUploading, setIsUploading] = useState(false);

@@ -11,6 +11,11 @@ body {
   background-color: #02191d;
 }
 
+#root {
+  position: relative;
+  overflow: hidden;
+}
+
 .road-rage {
   font-family: "Road Rage", serif;
 }
@@ -44,4 +49,14 @@ label {
 
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-in-out;
+}
+
+.ellipse {
+  position: absolute;
+  width: 100%;
+  bottom: -70%;
+  height: 100%;
+  background: #24a0b54d;
+  filter: blur(200px);
+  z-index: -9999;
 }

@@ -72,7 +72,7 @@ export const FormContent = ({
         currentStep !== 3
           ? "md:bg-[#08252B] md:border md:border-[#0E464F] md:rounded-[10px]"
           : ""
-      } w-full md:p-2.5`}
+      } w-full md:py-2.5 md:px-5`}
     >
       {currentStep === 1 && (
         <div className="animate-fadeIn">
@@ -82,7 +82,7 @@ export const FormContent = ({
               Join us for an unforgettable experience at [Event Name]! Secure
               your spot now.
             </p>
-            <div className="flex flex-col justify-center md:flex-row md:justify-evenly">
+            <div className="flex flex-col justify-center md:flex-row md:gap-5">
               <span>📍 [Event Location]</span>
               <span className="hidden md:inline">||</span>
               <span>March 15, 2025 | 7:00 PM</span>
@@ -163,20 +163,19 @@ export const FormContent = ({
           <div className="flex flex-col-reverse my-4 md:flex-row gap-2.5">
             <button
               onClick={handleCancel}
-              className="border jeju rounded-[10px] w-full py-2 border-[#24A0B5] text-[#24A0B5]"
+              className="border jeju rounded-[10px] w-full py-2 border-[#24A0B5] text-[#24A0B5] cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={handleNext}
-              className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white"
+              className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white cursor-pointer"
             >
               Next
             </button>
           </div>
         </div>
       )}
-
       {/* Step 2: Attendee Details */}
       {currentStep === 2 && (
         <div className="animate-fadeIn">
@@ -198,6 +197,7 @@ export const FormContent = ({
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg outline-0"
+            required
           />
 
           <label
@@ -206,13 +206,31 @@ export const FormContent = ({
           >
             Enter your email *
           </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg outline-0"
-          />
+          <div className="flex text-white rounded-[8px] mb-4 border border-[#07373F] gap-2 items-center p-2">
+            <svg
+              width="20"
+              height="16"
+              viewBox="0 0 20 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 0.00012207H2C0.897 0.00012207 0 0.897122 0 2.00012V14.0001C0 15.1031 0.897 16.0001 2 16.0001H18C19.103 16.0001 20 15.1031 20 14.0001V2.00012C20 0.897122 19.103 0.00012207 18 0.00012207ZM18 2.00012V2.51112L10 8.73412L2 2.51212V2.00012H18ZM2 14.0001V5.04412L9.386 10.7891C9.56111 10.9267 9.77733 11.0014 10 11.0014C10.2227 11.0014 10.4389 10.9267 10.614 10.7891L18 5.04412L18.002 14.0001H2Z"
+                fill="white"
+              />
+            </svg>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="hello@avioflagos.io"
+              className="w-full outline-none	bg-transparent"
+              required
+            />
+          </div>
 
           <label
             htmlFor="specialRequest"
@@ -226,25 +244,25 @@ export const FormContent = ({
             onChange={(e) => setSpecialRequest(e.target.value)}
             placeholder="Textarea"
             className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg outline-0"
+            required
           />
 
           <div className="flex flex-col-reverse my-4 md:flex-row gap-2.5">
             <button
               onClick={() => setCurrentStep(1)}
-              className="border rounded-[10px] jeju w-full py-2 border-[#24A0B5] text-[#24A0B5]"
+              className="border rounded-[10px] jeju w-full py-2 border-[#24A0B5] text-[#24A0B5] cursor-pointer"
             >
               Back
             </button>
             <button
               onClick={handleSubmit}
-              className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white"
+              className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white cursor-pointer"
             >
               Get My Free Ticket
             </button>
           </div>
         </div>
       )}
-
       {currentStep === 3 && (
         <div className="animate-fadeIn">
           <h1 className="text-[32px] font-medium text-white text-center alatsi mb-2.5">
@@ -253,7 +271,7 @@ export const FormContent = ({
           <p className="text-white text-[16px] text-center font-light mb-10 roboto">
             Check your email for a copy or you can <b>download</b>
           </p>
-          <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%]">
+          <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%] relative">
             <h2 className="road-rage text-4xl">Techember Fest &quot;25</h2>
             <div className="flex flex-col justify-center">
               <span>📍 04 Rumens road, Ikoyi, Lagos</span>
@@ -310,9 +328,21 @@ export const FormContent = ({
                 </p>
               </div>
             </div>
-
           </div>
-          
+          <div className="flex flex-col-reverse my-4 md:flex-row gap-2.5">
+            <button
+              onClick={() => handleCancel()}
+              className="border rounded-[10px] jeju w-full py-2 border-[#24A0B5] text-[#24A0B5] cursor-pointer"
+            >
+              Book Another Ticket
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white cursor-pointer"
+            >
+              Download Ticket
+            </button>
+          </div>
         </div>
       )}
     </form>
