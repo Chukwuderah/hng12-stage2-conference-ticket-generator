@@ -67,7 +67,7 @@ export const FormContent = ({
   }, [currentStep, setTitle]);
 
   return (
-    <form className="md:bg-[#08252B] md:border md:border-[#0E464F] md:rounded-[10px] w-full md:p-2.5">
+    <form className={`${currentStep !== 3 ? "md:bg-[#08252B] md:border md:border-[#0E464F] md:rounded-[10px]" : ''} w-full md:p-2.5`}>
       {currentStep === 1 && (
         <div className="animate-fadeIn">
           <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%]">
@@ -238,9 +238,11 @@ export const FormContent = ({
         </div>
       )}
 
-      {(currentStep === 3) & userDetails && (
+      {currentStep === 3 && (
         <div className="animate-fadeIn">
-          <p></p>
+          <h1 className="text-3xl font-bold text-white text-center">Your Ticket Is Booked!</h1>
+          <p className="text-white text-center">Check your email for a copy or you can download</p>
+          <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%]"></div>
         </div>
       )}
     </form>
