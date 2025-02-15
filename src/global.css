@@ -14,6 +14,7 @@ body {
 #root {
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
 }
 
 .road-rage {
