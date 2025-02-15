@@ -4,7 +4,7 @@ import logo from "../../assets/logo.png";
 export const Header = () => {
   return (
     <header className="w-full">
-      <nav className="w-[95%] mx-auto my-[30px] border border-[#197686] rounded-[10px] p-2 bg-[#05252C] flex justify-between items-center">
+      <nav className="w-[97%] mx-auto my-[30px] border border-[#197686] rounded-[10px] p-2 bg-[#05252C] flex justify-between items-center">
         <img src={logo} alt="logo" className="w-auto h-auto" />
         <ul className="hidden md:flex gap-5 jeju text-[#B3B3B3]">
           <li>

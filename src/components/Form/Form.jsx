@@ -151,7 +151,7 @@ export const TicketForm = () => {
 
   return (
     <div
-      className={` md:w-[50%] bg-[#08252B] md:bg-[transparent] my-10 h-max p-8 border rounded-[10px] mx-auto border-[#197686]`}
+      className={` w-[97%] md:w-[50%] bg-[#08252B] md:bg-[transparent] my-10 h-max p-8 border rounded-[10px] mx-auto border-[#197686]`}
     >
       <FormProgress title={title} currentStep={currentStep} totalSteps={3} />
       <FormContent
