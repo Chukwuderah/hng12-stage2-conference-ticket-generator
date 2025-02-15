@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { ImageUpload } from "./ImageUpload";
+import { Ticket } from "./Ticket";
 
 export const FormContent = ({
   setTitle,
@@ -18,8 +19,7 @@ export const FormContent = ({
   uploadedImage,
   setUploadedImage,
   handleSubmit,
-  userDetails,
-  setUserDetails,
+  errors,
 }) => {
   const ticketOptions = [
     {
@@ -41,7 +41,6 @@ export const FormContent = ({
     setSpecialRequest("");
     setUploadedImage(null);
     setCurrentStep(1);
-    setUserDetails(null);
   };
 
   const handleNext = () => {
@@ -66,6 +65,10 @@ export const FormContent = ({
     }
   }, [currentStep, setTitle]);
 
+  useEffect(() => {
+    console.log("Errors updated:", errors);
+  }, [errors]); // 🔥 This runs every time `errors` changes
+
   return (
     <form
       className={`${
@@ -73,29 +76,43 @@ export const FormContent = ({
           ? "md:bg-[#08252B] md:border md:border-[#0E464F] md:rounded-[10px]"
           : ""
       } w-full md:py-2.5 md:px-5`}
+      aria-label={`Event Registration - Step ${currentStep} of 3`}
+      role="form"
     >
       {currentStep === 1 && (
         <div className="animate-fadeIn">
-          <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%]">
+          <div
+            className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%]"
+            role="banner"
+          >
             <h2 className="road-rage text-4xl">Techember Fest &quot;25</h2>
             <p>
               Join us for an unforgettable experience at [Event Name]! Secure
               your spot now.
             </p>
-            <div className="flex flex-col justify-center md:flex-row md:gap-5">
-              <span>📍 [Event Location]</span>
-              <span className="hidden md:inline">||</span>
+            <div
+              className="flex flex-col justify-center md:flex-row md:gap-5"
+              role="contentinfo"
+            >
+              <span aria-label="Location pin">📍 [Event Location]</span>
+              <span className="hidden md:inline" aria-hidden="true">
+                ||
+              </span>
               <span>March 15, 2025 | 7:00 PM</span>
             </div>
           </div>
-          <hr className="h-1 border-0 bg-[#07373F] my-5" />
+          <hr className="h-1 border-0 bg-[#07373F] my-5" role="separator" />
           <label
             htmlFor="ticketType"
             className="text-white block text-left mb-2.5"
           >
             Select Ticket Type:
           </label>
-          <div className="flex flex-col md:flex-row gap-4 p-2 bg-[#052228] border rounded-[10px] border-[#07373F]">
+          <div
+            className="flex flex-col md:flex-row gap-4 p-2 bg-[#052228] border rounded-[10px] border-[#07373F]"
+            role="radiogroup"
+            aria-required="true"
+          >
             {ticketOptions.map((ticket) => (
               <label
                 key={ticket.name}
@@ -114,6 +131,7 @@ export const FormContent = ({
                   checked={selectedTicket === ticket.name}
                   onChange={() => setSelectedTicket(ticket.name)}
                   className="hidden"
+                  aria-label={`${ticket.name} ticket - ${ticket.price}, ${ticket.access}, ${ticket.available} available`}
                 />
                 <p className="text-xl font-bold">{ticket.price}</p>
                 <p className="text-sm">{ticket.access}</p>
@@ -135,6 +153,7 @@ export const FormContent = ({
                 value={ticketCount}
                 onChange={(e) => setTicketCount(parseInt(e.target.value))}
                 className="w-full p-3 pr-10 border border-[#0E464F] rounded-lg bg-[#052228] text-white outline-none focus:border-[#25A2C3] appearance-none"
+                aria-label="Select number of tickets"
               >
                 {[...Array(5).keys()].map((num) => (
                   <option key={num + 1} value={num + 1}>
@@ -163,13 +182,17 @@ export const FormContent = ({
           <div className="flex flex-col-reverse my-4 md:flex-row gap-2.5">
             <button
               onClick={handleCancel}
+              type="button"
               className="border jeju rounded-[10px] w-full py-2 border-[#24A0B5] text-[#24A0B5] cursor-pointer"
+              aria-label="Cancel ticket selection"
             >
               Cancel
             </button>
             <button
               onClick={handleNext}
+              type="button"
               className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white cursor-pointer"
+              aria-label="Proceed to attendee details"
             >
               Next
             </button>
@@ -179,14 +202,27 @@ export const FormContent = ({
       {/* Step 2: Attendee Details */}
       {currentStep === 2 && (
         <div className="animate-fadeIn">
-          <div className="w-full h-[350px] p-6 rounded-3xl border border-[#0E464F]">
+          <div
+            className="w-full h-[350px] p-6 rounded-3xl border border-[#0E464F]"
+            role="region"
+            aria-label="Profile photo upload section"
+          >
             <p className="text-white mb-8 md:mb-10">Upload Profile Photo</p>
             <ImageUpload
               uploadedImage={uploadedImage}
               setUploadedImage={setUploadedImage}
             />
+            {errors.uploadedImage && (
+              <p
+                className="text-red-500 mt-10 md:mt-5"
+                role="alert"
+                aria-live="polite"
+              >
+                {errors.uploadedImage}
+              </p>
+            )}
           </div>
-          <hr className="h-1 border-0 bg-[#07373F] my-5" />
+          <hr className="h-1 border-0 bg-[#07373F] my-5" role="separator" />
 
           <label htmlFor="name" className="text-white block text-left mb-2.5">
             Enter your name
@@ -198,7 +234,13 @@ export const FormContent = ({
             onChange={(e) => setName(e.target.value)}
             className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg outline-0"
             required
+            aria-required="true"
           />
+          {errors.name && (
+            <p className="text-red-500 mt-2" role="alert" aria-live="polite">
+              {errors.name}
+            </p>
+          )}
 
           <label
             htmlFor="email"
@@ -229,8 +271,14 @@ export const FormContent = ({
               placeholder="hello@avioflagos.io"
               className="w-full outline-none	bg-transparent"
               required
+              aria-required="true"
             />
           </div>
+          {errors.email && (
+            <p className="text-red-500 mt-2" role="alert" aria-live="polite">
+              {errors.email}
+            </p>
+          )}
 
           <label
             htmlFor="specialRequest"
@@ -241,22 +289,27 @@ export const FormContent = ({
           <textarea
             id="specialRequest"
             value={specialRequest}
+            maxLength={30}
             onChange={(e) => setSpecialRequest(e.target.value)}
             placeholder="Textarea"
             className="w-full border border-[#07373F] p-2 bg-transparent text-white rounded-lg outline-0"
             required
+            aria-label="Special requests or accommodations"
           />
 
           <div className="flex flex-col-reverse my-4 md:flex-row gap-2.5">
             <button
               onClick={() => setCurrentStep(1)}
+              type="button"
               className="border rounded-[10px] jeju w-full py-2 border-[#24A0B5] text-[#24A0B5] cursor-pointer"
+              aria-label="Return to ticket selection"
             >
               Back
             </button>
             <button
               onClick={handleSubmit}
               className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white cursor-pointer"
+              aria-label="Complete registration and get ticket"
             >
               Get My Free Ticket
             </button>
@@ -264,86 +317,16 @@ export const FormContent = ({
         </div>
       )}
       {currentStep === 3 && (
-        <div className="animate-fadeIn">
-          <h1 className="text-[32px] font-medium text-white text-center alatsi mb-2.5">
-            Your Ticket Is Booked!
-          </h1>
-          <p className="text-white text-[16px] text-center font-light mb-10 roboto">
-            Check your email for a copy or you can <b>download</b>
-          </p>
-          <div className="text-center bg-gradient-to-br from-[#07373F] to-[#0A0C11] border rounded-[10px] border-[#0E464F] space-y-2.5 text-white py-3 px-[10%] relative">
-            <h2 className="road-rage text-4xl">Techember Fest &quot;25</h2>
-            <div className="flex flex-col justify-center">
-              <span>📍 04 Rumens road, Ikoyi, Lagos</span>
-              <span>March 15, 2025 | 7:00 PM</span>
-            </div>
-            <div className="h-[140px] w-[140px] mx-auto my-10 bg-transparent border-[2px] border-[#24A0B5] rounded-[12px] ">
-              <img
-                src={uploadedImage}
-                alt="avatar"
-                className="w-full h-full object-cover rounded-[12px]"
-              />
-            </div>
-            <div className="flex flex-col justify-center w-full bg-[#08343C] border border-[#133D44] rounded-[10px]">
-              <div className="flex justify-center items-center w-full max-w-full">
-                <div className="w-[50%] max-w-[50%] border-[2px] border-r-[#133D44] border-y-0 border-l-0 p-2 flex flex-col gap-y-2">
-                  <p className="roboto text-white/30 text-[10px] text-left">
-                    Enter your name
-                  </p>
-                  <p className="roboto text-[12px] text-left truncate">
-                    {name}
-                  </p>
-                </div>
-                <div className="w-[50%] max-w-[50%] border-0 p-2 flex flex-col gap-y-2">
-                  <p className="roboto text-white/30 text-[10px] text-left">
-                    Enter your email *
-                  </p>
-                  <p className="roboto text-[12px] text-left truncate">
-                    {email}
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-center items-center w-full">
-                <div className="w-[50%] border-[2px] border-r-[#133D44] border-t-[#133D44] border-b-0 border-l-0 p-2 flex flex-col gap-y-2">
-                  <p className="roboto text-white/30 text-[10px] text-left">
-                    Ticket Type
-                  </p>
-                  <p className="roboto text-[12px] text-left">
-                    {selectedTicket}
-                  </p>
-                </div>
-                <div className="w-[50%] border-[2px] border-x-0 border-t-[#133D44] border-b-0 p-2 flex flex-col gap-y-2">
-                  <p className="roboto text-white/30 text-[10px] text-left">
-                    Ticket for?
-                  </p>
-                  <p className="roboto text-[12px] text-left">{ticketCount}</p>
-                </div>
-              </div>
-              <div className="w-full max-w-full border-[2px] border-t-[#133D44] border-x-0 border-b-0 p-2 flex flex-col gap-y-2">
-                <p className="roboto text-white/30 text-[10px] text-left">
-                  Special request?
-                </p>
-                <p className="roboto text-[12px] text-left overflow-auto">
-                  {specialRequest}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col-reverse my-4 md:flex-row gap-2.5">
-            <button
-              onClick={() => handleCancel()}
-              className="border rounded-[10px] jeju w-full py-2 border-[#24A0B5] text-[#24A0B5] cursor-pointer"
-            >
-              Book Another Ticket
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white cursor-pointer"
-            >
-              Download Ticket
-            </button>
-          </div>
-        </div>
+        <Ticket
+          uploadedImage={uploadedImage}
+          name={name}
+          email={email}
+          selectedTicket={selectedTicket}
+          ticketCount={ticketCount}
+          specialRequest={specialRequest}
+          handleSubmit={handleSubmit}
+          handleCancel={handleCancel}
+        />
       )}
     </form>
   );

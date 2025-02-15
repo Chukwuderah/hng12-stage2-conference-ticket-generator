@@ -80,28 +80,42 @@ export const TicketForm = () => {
     localStorage.removeItem("uploadedImage");
   };
 
+  const [errors, setErrors] = useState({});
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      !selectedTicket ||
-      !ticketCount ||
-      !name.trim() ||
-      !email.trim() ||
-      !uploadedImage
-    ) {
-      alert("Please fill in all required fields before submitting.");
+    let newErrors = {};
+
+    // Validate required fields
+    if (!selectedTicket) {
+      newErrors.selectedTicket = "Please select a ticket type.";
+    }
+    if (!ticketCount) {
+      newErrors.ticketCount = "Please specify the number of tickets.";
+    }
+    if (!name.trim()) {
+      newErrors.name = "Name is required.";
+    }
+    if (!email.trim()) {
+      newErrors.email = "Email is required.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        newErrors.email = "Please enter a valid email address.";
+      }
+    }
+    if (!uploadedImage) {
+      newErrors.uploadedImage = "Please upload a profile photo.";
+    }
+
+    // If there are errors, update state and prevent submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      alert("Please enter a valid email address.");
-      return;
-    }
-
-    setCurrentStep(3);
-
+    // Proceed to next step if no errors
     const ticketData = {
       selectedTicket,
       ticketCount,
@@ -114,6 +128,11 @@ export const TicketForm = () => {
     };
 
     localStorage.setItem("completedTicket", JSON.stringify(ticketData));
+
+    // Clear errors after successful submission
+    setErrors({});
+
+    setCurrentStep(3);
   };
 
   const handleCancel = () => {
@@ -127,10 +146,13 @@ export const TicketForm = () => {
     setEmail("");
     setSpecialRequest("");
     setUploadedImage(null);
+    localStorage.removeItem("uploadedImage");
   };
 
   return (
-    <div className="md:w-[50%] bg-[#08252B] md:bg-[transparent] mx-auto my-10 h-max p-8 border rounded-[10px] border-[#197686]">
+    <div
+      className={` md:w-[50%] bg-[#08252B] md:bg-[transparent] my-10 h-max p-8 border rounded-[10px] mx-auto border-[#197686]`}
+    >
       <FormProgress title={title} currentStep={currentStep} totalSteps={3} />
       <FormContent
         currentStep={currentStep}
@@ -150,6 +172,7 @@ export const TicketForm = () => {
         setUploadedImage={setUploadedImage}
         handleSubmit={handleSubmit}
         handleCancel={handleCancel}
+        errors={errors}
       />
     </div>
   );
