@@ -292,13 +292,13 @@ export const Ticket = ({
       <div className="flex flex-col-reverse my-4 md:flex-row gap-2.5">
         <button
           onClick={() => handleCancel()}
-          className="border rounded-[10px] jeju w-full py-2 border-[#24A0B5] text-[#24A0B5]"
+          className="border rounded-[10px] jeju w-full py-2 border-[#24A0B5] text-[#24A0B5] cursor-pointer"
         >
           Book Another Ticket
         </button>
         <button
           onClick={handleSubmit}
-          className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white"
+          className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white cursor-pointer"
         >
           Download Ticket
         </button>
