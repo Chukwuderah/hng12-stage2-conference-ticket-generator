@@ -311,7 +311,7 @@ export const FormContent = ({
               className="rounded-[10px] jeju bg-[#24A0B5] w-full py-2 text-white cursor-pointer"
               aria-label="Complete registration and get ticket"
             >
-              Get My Free Ticket
+              Get My {selectedTicket} Ticket
             </button>
           </div>
         </div>
